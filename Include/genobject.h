@@ -11,6 +11,32 @@ extern "C" {
 struct PyGenObject;
 typedef struct PyGenObject PyGenObject;
 
+#include "pystate.h"
+#include "ceval_meta.h"
+
+struct PyVirtualThread {
+    PyObject_HEAD
+    struct ThreadState thread;
+};
+
+/* Generator object interface: move to genobject.h */
+typedef struct PyGenObject {
+    struct PyVirtualThread base;
+    PyObject *weakreflist;
+    PyObject *name;
+    PyObject *qualname;
+    PyObject *return_value;
+    PyObject *yield_from;  /* object being iterated by yield from, or None */
+    PyObject *code;
+    char status;
+    char retains_code;
+} PyGenObject;
+
+typedef struct {
+    PyGenObject base;
+    PyObject *origin;
+} PyCoroObject;
+
 PyAPI_DATA(PyTypeObject) PyGen_Type;
 
 #define PyGen_Check(op) PyObject_TypeCheck(op, &PyGen_Type)

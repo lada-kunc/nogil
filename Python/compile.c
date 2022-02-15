@@ -35,7 +35,6 @@
 #include <stdlib.h>
 
 enum {
-    FRAME_EXTRA = 4, // FIXME get from ceval_meta.h
     REG_ACCUMULATOR = -1
 };
 
